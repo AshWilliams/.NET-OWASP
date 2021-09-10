@@ -12,6 +12,8 @@ namespace NETCore3Angular
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -22,6 +24,16 @@ namespace NETCore3Angular
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(name: MyAllowSpecificOrigins,
+            //                      builder =>
+            //                      {
+            //                          builder.WithOrigins("http://example.com",
+            //                                              "http://www.contoso.com");
+            //                      });
+            //});
+
             services.AddAntiforgery(options =>
             {
                 options.Cookie.HttpOnly = false;
@@ -50,6 +62,8 @@ namespace NETCore3Angular
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            //app.UseCors(MyAllowSpecificOrigins);
 
             app.UseStaticFiles();
             if (!env.IsDevelopment())
