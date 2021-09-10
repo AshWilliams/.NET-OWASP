@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,11 @@ namespace NETCore3Angular.Controllers
 {
     public class GatewayController : Controller
     {
-
+        UrlEncoder _urlEncoder;
+        public GatewayController(UrlEncoder urlEncoder)
+        {
+            _urlEncoder = urlEncoder;
+        }
         // GET: GatewayController
         public ActionResult Index()
         {
@@ -57,9 +62,11 @@ namespace NETCore3Angular.Controllers
         }
 
         // GET: GatewayController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string test)
         {
-            return View();
+            //http://localhost:49590/gateway/edit?test="<script>alert(1)</script>"
+            var sanitized = _urlEncoder.Encode(test);
+            return Content(sanitized);
         }
 
         // POST: GatewayController/Edit/5
